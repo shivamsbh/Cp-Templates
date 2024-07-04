@@ -103,6 +103,8 @@ template <typename T>             void _print(minh<T> _);
 template <typename T, typename V> void _print(pair <T, V> p);
 template <typename T>             void _print(vector <T> v);
 template <typename T>             void _print(oset <T> v);
+template <typename T>             void _print(queue<T> _);
+template <typename T>             void _print(stack<T> _);
 template <typename T>             void _print(set <T> v);
 template <typename T, typename V> void _print(map <T, V> v);
 template <typename T, typename V> void _print(unordered_map <T, V> v);
@@ -137,38 +139,37 @@ vi dx = {0, 0, 1, -1};
 vi dy = {1, -1, 0 , 0};
 
 void solve() {
-    
 }
 
 int32_t main() {
 
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r" , stdin);
-    freopen("output.txt", "w", stdout);
-    freopen("debug.txt", "w", stderr);
+	freopen("input.txt", "r" , stdin);
+	freopen("output.txt", "w", stdout);
+	freopen("debug.txt", "w", stderr);
 #endif
 
-    Shivam_Sbh;
+	Shivam_Sbh;
 
-    cout << fixed << setprecision(25);
-    cerr << fixed << setprecision(10);
+	cout << fixed << setprecision(25);
+	cerr << fixed << setprecision(10);
 
-    auto start = chrono::high_resolution_clock::now();
+	auto start = chrono::high_resolution_clock::now();
 
-    int no_of_test = 1;
-    cin >> no_of_test;
-    iforls(test_no, no_of_test) {
+	int no_of_test = 1;
+	cin >> no_of_test;
+	iforls(test_no, no_of_test) {
 
 #ifndef ONLINE_JUDGE
-        cerr << "Test Case # " << test_no + 1 << endl;
+		cerr << "Test Case # " << test_no + 1 << endl;
 #endif
-        solve();
-    }
+		solve();
+	}
 
 #ifndef ONLINE_JUDGE
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<nanoseconds>(stop - start);
+	cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
 #endif
 
 }
