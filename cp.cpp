@@ -15,13 +15,11 @@ using namespace chrono;
 #define ppi            pair<pii, int>
 #define vi             vector<int>
 #define vvi            vector<vi>
-#define usi            unordered_set<int>
 #define si             set<int>
 #define dsi            set<int, greater<int>>
 #define msi            multiset<int>
 #define mii            map<int, int>
 #define dmii           map<int, int, greater<int> >
-#define umii           unordered_map<int, int>
 #define vpii           vector<pii>
 #define vvpii          vector<vpii>
 #define spii           set<pii>
@@ -33,11 +31,7 @@ using namespace chrono;
 #define ub             upper_bound
 #define endl           "\n"
 #define eb             emplace_back
-#define ef             emplace_front
 #define pb             push_back
-#define pf             push_front
-#define ppb            pop_back()
-#define ppf            pop_front()
 #define fbo            find_by_order
 #define ook            order_of_key
 #define maxel          max_element
@@ -96,6 +90,12 @@ template<class T>         bool ckmax(T& a, const T& b) { return a < b ? a = b, 1
 template <typename T>     ostream &operator<<(ostream &out, const vector<T> &v) { for (const auto &x : v) out << x << ' '; return out; }
 template <typename T>     istream &operator>>(istream &in, vector<T> &v) { for (auto &x : v) in >> x; return in; }
 
+#ifndef ONLINE_JUDGE
+#define debug(x)       cerr << #x <<" "; _print(x); cerr << endl
+#else
+#define debug(x)
+#endif
+
 void _print(bool x)               {cerr << (x ? "True" : "False");}
 template <typename T>             void _print(T t) {cerr << t;}
 template <typename T>             void _print(maxh<T> _);
@@ -107,26 +107,17 @@ template <typename T>             void _print(queue<T> _);
 template <typename T>             void _print(stack<T> _);
 template <typename T>             void _print(set <T> v);
 template <typename T, typename V> void _print(map <T, V> v);
-template <typename T, typename V> void _print(unordered_map <T, V> v);
 template <typename T>             void _print(multiset <T> v);
 template <typename T, typename V> void _print(pair <T, V> p) {cerr << "("; _print(p.F); cerr << ","; _print(p.S); cerr << ")";}
 template <typename T>             void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <typename T>             void _print(set <T> v) {cerr << "( "; for (T i : v) {_print(i); cerr << " ";} cerr << ")";}
 template <typename T>             void _print(multiset <T> v) {cerr << "( "; for (T i : v) {_print(i); cerr << " ";} cerr << ")";}
-template <typename T>             void _print(unordered_set <T> v) {cerr << "( "; for (T i : v) {_print(i); cerr << " ";} cerr << ")";}
 template <typename T, typename V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <typename T, typename V> void _print(unordered_map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <typename T>             void _print(oset <T> v) {cerr << "( "; for (T i : v) {_print(i); cerr << " ";} cerr << ")";}
 template <typename T>             void _print(maxh<T> _) {maxh<T> v = _; cerr << "{ "; while (!v.empty()) {_print(v.top()); cerr << " "; v.pop();} cerr << "}";}
 template <typename T>             void _print(minh<T> _) {minh<T> v = _; cerr << "{ "; while (!v.empty()) {_print(v.top()); cerr << " "; v.pop();} cerr << "}";}
 template <typename T>             void _print(queue<T> _) {queue<T> v = _; cerr << "{ "; while (!v.empty()) {_print(v.front()); cerr << " "; v.pop();} cerr << "}";}
 template <typename T>             void _print(stack<T> _) {stack<T> v = _; cerr << "{ "; while (!v.empty()) {_print(v.top()); cerr << " "; v.pop();} cerr << "}";}
-
-#ifndef ONLINE_JUDGE
-#define debug(x)       cerr << #x <<" "; _print(x); cerr << endl
-#else
-#define debug(x)
-#endif
 
 const int md = 1000000007;
 const int mmd = 998244353;
@@ -144,32 +135,32 @@ void solve() {
 int32_t main() {
 
 #ifndef ONLINE_JUDGE
-	freopen("input.txt", "r" , stdin);
-	freopen("output.txt", "w", stdout);
-	freopen("debug.txt", "w", stderr);
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w", stdout);
+    freopen("debug.txt", "w", stderr);
 #endif
 
-	Shivam_Sbh;
+    Shivam_Sbh;
 
-	cout << fixed << setprecision(25);
-	cerr << fixed << setprecision(10);
+    cout << fixed << setprecision(25);
+    cerr << fixed << setprecision(10);
 
-	auto start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
 
-	int no_of_test = 1;
-	cin >> no_of_test;
-	iforls(test_no, no_of_test) {
+    int no_of_test = 1;
+    cin >> no_of_test;
+    iforls(test_no, no_of_test) {
 
 #ifndef ONLINE_JUDGE
-		cerr << "Test Case # " << test_no + 1 << endl;
+        cerr << "Test Case # " << test_no + 1 << endl;
 #endif
-		solve();
-	}
+        solve();
+    }
 
 #ifndef ONLINE_JUDGE
-	auto stop = high_resolution_clock::now();
-	auto duration = duration_cast<nanoseconds>(stop - start);
-	cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
 #endif
 
 }
