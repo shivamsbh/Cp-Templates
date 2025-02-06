@@ -65,79 +65,81 @@ public:
 class LazySegmentTree {
 private:
     int n;
-    vector<int> tree, lazy;
-
-    void build(int node, int tl, int tr, const vector<int>& arr) {
-        if (tl == tr) {
-            tree[node] = arr[tl - 1]; // Convert to 0-based array access
-            return;
-        }
-        int tm = (tl + tr) >> 1;
-        build(node<<1, tl, tm, arr);
-        build(node<<1|1, tm+1, tr, arr);
-        tree[node] = tree[node<<1] + tree[node<<1|1];
-    }
-
-    void push(int node, int tl, int tr) {
-        if (lazy[node]) {
-            int mid = (tl + tr) >> 1;
-            int ln = mid - tl + 1;
-            int rn = tr - mid;
-            
-            // Update current node
-            tree[node] += lazy[node] * (tr - tl + 1);
+    vector<int> tree;
+    vector<int> lazy;
+    
+    // Helper function to propagate lazy values
+    void push(int node, int start, int end) {
+        if (lazy[node] != 0) {
+            // Apply the pending update
+            tree[node] += (end - start + 1) * lazy[node];
             
             // Propagate to children if not leaf
-            if (tl != tr) {
-                lazy[node<<1] += lazy[node];
-                lazy[node<<1|1] += lazy[node];
+            if (start != end) {
+                lazy[node*2] += lazy[node];
+                lazy[node*2+1] += lazy[node];
             }
             lazy[node] = 0;
         }
     }
-
-    void range_update(int node, int tl, int tr, int l, int r, int val) {
-        push(node, tl, tr);
-        if (r < tl || tr < l) return;
+    
+    // Recursive function to build the tree
+    void build(const std::vector<int>& arr, int node, int start, int end) {
+        if (start == end) {
+            tree[node] = arr[start];
+            return;
+        }
+        int mid = (start + end) / 2;
+        build(arr, node*2, start, mid);
+        build(arr, node*2+1, mid+1, end);
+        tree[node] = tree[node*2] + tree[node*2+1];
+    }
+    
+public:
+    LazySegmentTree(const std::vector<int>& arr) {
+        n = arr.size();
+        int height = (int)ceil(log2(n)) + 1;
+        int size = 1 << height;
+        tree.resize(size);
+        lazy.resize(size, 0);
+        build(arr, 1, 0, n-1);
+    }
+    
+    // Range update: add 'val' to all elements in [l, r]
+    void updateRange(int l, int r, int val) {
+        _updateRange(1, 0, n-1, l, r, val);
+    }
+    
+    void _updateRange(int node, int start, int end, int l, int r, int val) {
+        push(node, start, end);
         
-        if (l <= tl && tr <= r) {
+        if (start > r || end < l) return;
+        
+        if (l <= start && end <= r) {
             lazy[node] += val;
-            push(node, tl, tr);
+            push(node, start, end);
             return;
         }
         
-        int tm = (tl + tr) >> 1;
-        range_update(node<<1, tl, tm, l, r, val);
-        range_update(node<<1|1, tm+1, tr, l, r, val);
-        tree[node] = tree[node<<1] + tree[node<<1|1];
+        int mid = (start + end) / 2;
+        _updateRange(node*2, start, mid, l, r, val);
+        _updateRange(node*2+1, mid+1, end, l, r, val);
+        tree[node] = tree[node*2] + tree[node*2+1];
     }
-
-    int range_query(int node, int tl, int tr, int l, int r) {
-        push(node, tl, tr);
-        if (r < tl || tr < l) return 0;
+    
+    // Range query: sum of elements in [l, r]
+    int queryRange(int l, int r) {
+        return _queryRange(1, 0, n-1, l, r);
+    }
+    
+    int _queryRange(int node, int start, int end, int l, int r) {
+        push(node, start, end);
         
-        if (l <= tl && tr <= r) return tree[node];
+        if (start > r || end < l) return 0;
+        if (l <= start && end <= r) return tree[node];
         
-        int tm = (tl + tr) >> 1;
-        return range_query(node<<1, tl, tm, l, r) + 
-               range_query(node<<1|1, tm+1, tr, l, r);
-    }
-
-public:
-    LazySegmentTree(const vector<int>& arr) {
-        n = arr.size();
-        tree.resize(4*n + 1);
-        lazy.resize(4*n + 1, 0);
-        build(1, 1, n, arr);
-    }
-
-    // Update interval [l, r] (1-based) with +val
-    void update(int l, int r, int val) {
-        range_update(1, 1, n, l, r, val);
-    }
-
-    // Query sum of interval [l, r] (1-based)
-    int query(int l, int r) {
-        return range_query(1, 1, n, l, r);
+        int mid = (start + end) / 2;
+        return _queryRange(node*2, start, mid, l, r) + 
+               _queryRange(node*2+1, mid+1, end, l, r);
     }
 };
