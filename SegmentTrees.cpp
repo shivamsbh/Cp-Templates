@@ -62,80 +62,82 @@ public:
     }
 };
 
-
-
 class LazySegmentTree {
 private:
-    std::vector<int> tree;
-    std::vector<int> lazy;
     int n;
+    vector<int> tree, lazy;
 
-    void build(int node, int start, int end, const std::vector<int>& arr) {
-        if (start == end) {
-            tree[node] = arr[start - 1]; // Convert to 0-based array access
+    void build(int node, int tl, int tr, const vector<int>& arr) {
+        if (tl == tr) {
+            tree[node] = arr[tl - 1]; // Convert to 0-based array access
             return;
         }
-
-        int mid = (start + end) / 2;
-        build(2 * node, start, mid, arr);
-        build(2 * node + 1, mid + 1, end, arr);
-        tree[node] = tree[2 * node] + tree[2 * node + 1];
+        int tm = (tl + tr) >> 1;
+        build(node<<1, tl, tm, arr);
+        build(node<<1|1, tm+1, tr, arr);
+        tree[node] = tree[node<<1] + tree[node<<1|1];
     }
 
-    void apply(int node, int start, int end, int delta) {
-        tree[node] += delta * (end - start + 1);
-        if (start != end) {
-            lazy[2 * node] += delta;
-            lazy[2 * node + 1] += delta;
+    void push(int node, int tl, int tr) {
+        if (lazy[node]) {
+            int mid = (tl + tr) >> 1;
+            int ln = mid - tl + 1;
+            int rn = tr - mid;
+            
+            // Update current node
+            tree[node] += lazy[node] * (tr - tl + 1);
+            
+            // Propagate to children if not leaf
+            if (tl != tr) {
+                lazy[node<<1] += lazy[node];
+                lazy[node<<1|1] += lazy[node];
+            }
+            lazy[node] = 0;
         }
-        lazy[node] = 0;
     }
 
-    int query(int node, int start, int end, int l, int r) {
-        if (lazy[node] != 0) {
-            int delta = lazy[node];
-            apply(node, start, end, delta);
-        }
-
-        if (end < l || start > r) return 0;
-        if (l <= start && end <= r) return tree[node];
-
-        int mid = (start + end) / 2;
-        return query(2 * node, start, mid, l, r) +
-               query(2 * node + 1, mid + 1, end, l, r);
-    }
-
-    void update(int node, int start, int end, int l, int r, int delta) {
-        if (lazy[node] != 0) {
-            apply(node, start, end, lazy[node]);
-        }
-
-        if (start > r || end < l) return;
-
-        if (l <= start && end <= r) {
-            apply(node, start, end, delta);
+    void range_update(int node, int tl, int tr, int l, int r, int val) {
+        push(node, tl, tr);
+        if (r < tl || tr < l) return;
+        
+        if (l <= tl && tr <= r) {
+            lazy[node] += val;
+            push(node, tl, tr);
             return;
         }
+        
+        int tm = (tl + tr) >> 1;
+        range_update(node<<1, tl, tm, l, r, val);
+        range_update(node<<1|1, tm+1, tr, l, r, val);
+        tree[node] = tree[node<<1] + tree[node<<1|1];
+    }
 
-        int mid = (start + end) / 2;
-        update(2 * node, start, mid, l, r, delta);
-        update(2 * node + 1, mid + 1, end, l, r, delta);
-        tree[node] = tree[2 * node] + tree[2 * node + 1];
+    int range_query(int node, int tl, int tr, int l, int r) {
+        push(node, tl, tr);
+        if (r < tl || tr < l) return 0;
+        
+        if (l <= tl && tr <= r) return tree[node];
+        
+        int tm = (tl + tr) >> 1;
+        return range_query(node<<1, tl, tm, l, r) + 
+               range_query(node<<1|1, tm+1, tr, l, r);
     }
 
 public:
-    LazySegmentTree(const std::vector<int>& arr) {
+    LazySegmentTree(const vector<int>& arr) {
         n = arr.size();
-        tree.resize(4 * n);
-        lazy.resize(4 * n, 0);
+        tree.resize(4*n + 1);
+        lazy.resize(4*n + 1, 0);
         build(1, 1, n, arr);
     }
 
-    int rangeQuery(int l, int r) {
-        return query(1, 1, n, l, r);
+    // Update interval [l, r] (1-based) with +val
+    void update(int l, int r, int val) {
+        range_update(1, 1, n, l, r, val);
     }
 
-    void rangeUpdate(int l, int r, int delta) {
-        update(1, 1, n, l, r, delta);
+    // Query sum of interval [l, r] (1-based)
+    int query(int l, int r) {
+        return range_query(1, 1, n, l, r);
     }
 };
