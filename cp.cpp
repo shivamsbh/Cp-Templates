@@ -54,7 +54,7 @@ using namespace chrono;
 #define cksubs(s,d)    (s.find(d) != string::npos)
 #define py             cout<<"YES"<<endl
 #define pn             cout<<"NO"<<endl
-#define Shivam_Sbh     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define Shivam_Saurabh ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
 int lcm(int a, int b)  {return ((a * b) / gcd(a, b));}
 int lcmv (vi &v)   {int a = v[0]; for (int i = 1; i < (int)v.size(); i++)   a = lcm(a, v[i]);   return a;}
@@ -69,6 +69,7 @@ int vsum(int x, int y, vi &pS) {if (x == 0) return pS[y]; else return (pS[y] - p
 int binpow(int a, int b)  {int res = 1; while (b > 0) {if (b & 1)res = res * a; a = a * a; b >>= 1;} return res;}
 int roof(int a, int b) {if (a % b == 0) return a / b; else return (a / b + 1);}
 int highestBit(int n) {int _ = log2(n); return _;}
+int xorUpToN(int n) { return (n % 4 == 0) ? n : (n % 4 == 1) ? 1 : (n % 4 == 2) ? n + 1 : 0; }
 
 template <typename T>     using oset = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 template <typename T>     using minh = priority_queue<T, vector<T>, greater<T>>;
@@ -113,37 +114,38 @@ const long long ninf = -1000000000000000001;
 mt19937 rng(steady_clock::now().time_since_epoch().count());
 
 void solve() {
+
 }
 
 int32_t main() {
 
 #ifndef ONLINE_JUDGE
-  freopen("input.txt", "r" , stdin);
-  freopen("output.txt", "w", stdout);
-  freopen("debug.txt", "w", stderr);
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w", stdout);
+    freopen("debug.txt", "w", stderr);
 #endif
 
-  Shivam_Sbh;
+    Shivam_Saurabh;
 
-  cout << fixed << setprecision(18);
-  cerr << fixed << setprecision(10);
+    cout << fixed << setprecision(18);
+    cerr << fixed << setprecision(10);
 
-  auto start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
 
-  int no_of_test = 1;
-  cin >> no_of_test;
-  iforls(test_no, no_of_test) {
+    int no_of_test = 1;
+    cin >> no_of_test;
+    iforls(test_no, no_of_test) {
 
 #ifndef ONLINE_JUDGE
-    cerr << "Test Case # " << test_no + 1 << endl;
+        cerr << "Test Case # " << test_no + 1 << endl;
 #endif
-    solve();
-  }
+        solve();
+    }
 
 #ifndef ONLINE_JUDGE
-  auto stop = high_resolution_clock::now();
-  auto duration = duration_cast<nanoseconds>(stop - start);
-  cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
 #endif
 
 }
