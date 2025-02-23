@@ -1,5 +1,5 @@
 const int MAX_C = 26;
-const int MAX_S = 2e6;
+const int MAX_S = 1e6 + 1;
 
 int Trie[MAX_S][MAX_C], cnt[MAX_S];
 int num = 0;
