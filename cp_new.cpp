@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
+
+#ifndef ONLINE_JUDGE
 #include "debug_utils.h"
+#else
+#define debug(...) 37
+#endif
 
 using namespace __gnu_pbds;
 using namespace std;
