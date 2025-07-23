@@ -93,12 +93,6 @@ void solve() {
 
 int32_t main() {
 
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r" , stdin);
-    freopen("output.txt", "w", stdout);
-    freopen("debug.txt", "w", stderr);
-#endif
-
     Shivam_Saurabh;
 
     cout << fixed << setprecision(18);
