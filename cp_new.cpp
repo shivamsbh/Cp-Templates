@@ -103,17 +103,12 @@ int32_t main() {
     int no_of_test = 1;
     cin >> no_of_test;
     iforls(test_no, no_of_test) {
-
-#ifndef ONLINE_JUDGE
-        cerr << "Test Case # " << test_no + 1 << endl;
-#endif
         solve();
     }
 
-#ifndef ONLINE_JUDGE
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(stop - start);
-    cerr << "Time Elapsed : " << ((long double)duration.count()) / ((long double) 1e9) << "s " << endl;
-#endif
 
+    debug(duration);
+    
 }
