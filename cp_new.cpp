@@ -2,7 +2,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 
-#ifndef ONLINE_JUDGE
+#ifdef LOCAL
 #include "debug_utils.h"
 #else
 #define debug(...) 37
